@@ -4,4 +4,4 @@ Please perform the following commands in order to get the project up and running
 2) docker-compose up -d
 3) docker-compose exec php composer install
 4) docker-compose exec php php bin/console messenger:consume --no-interaction
-5) In you browser type localhost:8080
+5) In your browser type localhost:8080/index
