@@ -7,8 +7,6 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ./:/var/www/html/
-    networks:
-      - code-network
   nginx:
     build:
       context: ./docker/nginx
@@ -17,8 +15,6 @@ services:
       - "8080:80"
     volumes:
       - ./:/var/www/html/
-    networks:
-      - code-network
   mysql:
     build:
       context: ./docker/mysql
@@ -40,7 +36,3 @@ services:
       RABBITMQ_DEFAULT_PASS: $RABBITMQ_DEFAULT_PASS
     ports:
       - "3000:15672"
-
-networks:
-  code-network:
-    driver: bridge
