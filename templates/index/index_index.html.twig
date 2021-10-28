@@ -1,0 +1,70 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Index{% endblock %}
+
+{% block body %}
+    <div id="get_historical_data">
+        <div>
+            <label for="get_historical_data_Company_Symbol" class="required">Company symbol</label>
+            <input type="text" id="get_historical_data_Company_Symbol" name="get_historical_data[Company_Symbol]" required="required">
+        </div>
+        <div>
+            <label for="get_historical_data_Start_Date" class="required">Start Date</label>
+            <input type="text" id="get_historical_data_Start_Date" name="get_historical_data[Start_Date]" required="required">
+        </div>
+        <div>
+            <label for="get_historical_data_End_Date" class="required">End Date</label>
+            <input type="text" id="get_historical_data_End_Date" name="get_historical_data[End_Date]" required="required">
+        </div>
+        <div>
+            <label for="get_historical_data_Email" class="required">Email</label>
+            <input type="email" id="get_historical_data_Email" name="get_historical_data[Email]" required="required">
+        </div>
+        <div>
+            <button type="submit" id="get_historical_data_Get_Data" name="get_historical_data[Get_Data]">Get data</button>
+        </div>
+    </div>
+
+    <div>
+        <table id="data_table"></table>
+    </div>
+
+    <script>
+        $(function(){
+
+            $( "#get_historical_data_Start_Date" ).datepicker({dateFormat: "yy-mm-dd"});
+            $( "#get_historical_data_End_Date" ).datepicker({dateFormat: "yy-mm-dd"});
+
+            $("#get_historical_data_Get_Data").click(function(){
+                const companySymbol = $( "#get_historical_data_Company_Symbol" ).val();
+                const startDate = $( "#get_historical_data_Start_Date" ).val();
+                const endDate = $( "#get_historical_data_End_Date" ).val();
+                const email = $( "#get_historical_data_Email" ).val();
+
+                $.post("/historical-data",
+                    {
+                        companySymbol: companySymbol,
+                        startDate: startDate,
+                        endDate: endDate,
+                        email: email
+                    },
+                    function(data) {
+                        $('#data_table').html('');
+                        $('#data_table').append('<tr><th>Date</th><th>Open</th><th>High</th><th>Low</th><th>Close</th><th>Volume</th></tr>');
+                        $.each(data, function(index, element) {
+                            $('#data_table').append(
+                                '<tr><th>'+element.date+'</th><th>'+element.open+'</th><th>'+element.high+'</th><th>'+element.low+'</th><th>'+element.close+'</th><th>'+element.volume+'</th></tr>'
+                            );
+                        });
+                    }
+                ).fail(function(response) {
+                    console.log(response.status);
+                    console.log($.parseJSON(response.responseText));
+                    $('#data_table').html('');
+                    $('#data_table').html($.parseJSON(response.responseText));
+                });
+            });
+
+        });
+    </script>
+{% endblock %}

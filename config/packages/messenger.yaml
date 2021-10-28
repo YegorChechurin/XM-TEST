@@ -1,0 +1,7 @@
+framework:
+    messenger:
+        transports:
+            emails:
+                dsn: '%env(EMAIL_NOTIFICATION_DSN)%'
+        routing:
+            'App\Message\CompanyHistoricalDataQuoteEmailNotification': emails
