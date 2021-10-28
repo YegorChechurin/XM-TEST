@@ -1,6 +1,6 @@
 Please perform the following commands in order to get the project up and running:
 
-1) git clone https://github.com/YegorChechurin/XM-TEST.git
+1) git clone https://github.com/YegorChechurin/XM-TEST.git && cd XM-TEST
 2) docker-compose up -d
 3) docker-compose exec php composer install
 4) docker-compose exec php php bin/console messenger:consume --no-interaction
