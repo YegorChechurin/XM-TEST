@@ -32,7 +32,7 @@ final class GetHistoricalDataController extends AbstractController
     }
 
     /**
-     * @Route("/historical-data", name="get_historical_data")
+     * @Route("/historical-data", methods={"POST"})
      */
     public function __invoke(Request $request): JsonResponse
     {

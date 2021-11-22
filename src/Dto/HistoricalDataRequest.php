@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Dto;
 
+use App\Validator as XmAssert;
 use DateTimeImmutable;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -20,7 +21,7 @@ final class HistoricalDataRequest
     /**
      * @Assert\NotBlank
      * @Assert\Date
-     * @Assert\LessThanOrEqual("today")
+     * @XmAssert\LessThanOrEqualToday
      * @Assert\LessThanOrEqual(propertyPath="endDate")
      */
     private string $startDate;
@@ -28,7 +29,7 @@ final class HistoricalDataRequest
     /**
      * @Assert\NotBlank
      * @Assert\Date
-     * @Assert\LessThanOrEqual("today")
+     * @XmAssert\LessThanOrEqualToday
      */
     private string $endDate;
 
