@@ -27,7 +27,7 @@ final class DatahubCompanySymbolToNameConverter implements CompanySymbolToNameCo
                 throw CannotConvertToCompanyName::forCompanySymbol($companySymbol);
             }
 
-            $companyName = $this->getCompanyName($companySymbol, $metaData);
+            return $this->getCompanyName($companySymbol, $metaData);
         } catch (ExceptionInterface | CannotConvertToCompanyName $e) {
             $this->logger->error(
                 'Cannot convert company symbol to company name by metadata list from Datahub',
@@ -39,8 +39,6 @@ final class DatahubCompanySymbolToNameConverter implements CompanySymbolToNameCo
 
             throw $e;
         }
-
-        return $companyName;
     }
 
     /**

@@ -7,32 +7,41 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ./:/var/www/html/
-  nginx:
+#  nginx:
+#    build:
+#      context: ./docker/nginx
+#      dockerfile: Dockerfile
+#    ports:
+#      - "8080:80"
+#    volumes:
+#      - ./:/var/www/html/
+#  mysql:
+#    build:
+#      context: ./docker/mysql
+#      dockerfile: Dockerfile
+#    environment:
+#      MYSQL_DATABASE: $MYSQL_DATABASE
+#      MYSQL_USER: $MYSQL_USER
+#      MYSQL_PASSWORD: $MYSQL_PASSWORD
+#      MYSQL_ROOT_PASSWORD: $MYSQL_ROOT_PASSWORD
+#    ports:
+#      - "3306:3306"
+#  rabbitmq:
+#    build:
+#      context: ./docker/rabbitmq
+#      dockerfile: Dockerfile
+#    environment:
+#      RABBITMQ_DEFAULT_VHOST: $RABBITMQ_DEFAULT_VHOST
+#      RABBITMQ_DEFAULT_USER: $RABBITMQ_DEFAULT_USER
+#      RABBITMQ_DEFAULT_PASS: $RABBITMQ_DEFAULT_PASS
+#    ports:
+#      - "3000:15672"
+  redis:
     build:
-      context: ./docker/nginx
+      context: ./docker/redis
       dockerfile: Dockerfile
+    hostname: redis
     ports:
-      - "8080:80"
+      - "$REDIS_PORT:6379"
     volumes:
-      - ./:/var/www/html/
-  mysql:
-    build:
-      context: ./docker/mysql
-      dockerfile: Dockerfile
-    environment:
-      MYSQL_DATABASE: $MYSQL_DATABASE
-      MYSQL_USER: $MYSQL_USER
-      MYSQL_PASSWORD: $MYSQL_PASSWORD
-      MYSQL_ROOT_PASSWORD: $MYSQL_ROOT_PASSWORD
-    ports:
-      - "3306:3306"
-  rabbitmq:
-    build:
-      context: ./docker/rabbitmq
-      dockerfile: Dockerfile
-    environment:
-      RABBITMQ_DEFAULT_VHOST: $RABBITMQ_DEFAULT_VHOST
-      RABBITMQ_DEFAULT_USER: $RABBITMQ_DEFAULT_USER
-      RABBITMQ_DEFAULT_PASS: $RABBITMQ_DEFAULT_PASS
-    ports:
-      - "3000:15672"
+      - "./volumes/redis:/data"

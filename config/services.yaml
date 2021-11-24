@@ -11,6 +11,26 @@ services:
             - '../src/Kernel.php'
             - '../src/Tests/'
 
+    Redis:
+        class: Redis
+        calls:
+            - connect:
+                  - '%env(resolve:REDIS_HOST)%'
+            - auth:
+                  - '%env(string:REDIS_PASSWORD)%'
+
+    App\Service\RedisCompanySymbolToNameConverter:
+        tags:
+            - { name: 'app.company_symbol_to_name_converter', priority: 2 }
+    App\Service\DatahubCompanySymbolToNameConverter:
+        tags:
+            - { name: 'app.company_symbol_to_name_converter', priority: 1 }
+    App\Service\DefaultCompanySymbolToNameConverter:
+        arguments:
+            $convertersChain: !tagged_iterator app.company_symbol_to_name_converter
+    App\Service\CompanySymbolToNameConverter:
+        alias: App\Service\DefaultCompanySymbolToNameConverter
+
     App\Service\SymfonyRapidApiClient:
         arguments:
             $rapidApiKey: '%env(string:RAPID_API_KEY)%'
